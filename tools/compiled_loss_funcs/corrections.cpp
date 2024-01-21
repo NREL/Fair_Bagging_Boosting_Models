@@ -8,10 +8,6 @@
 
 using namespace std;
 
-// Declare base correction functions
-// double* kendall_base(const vec diffs, const vec demographics, int& n);
-// double* distance_base(const vec diffs, const vec demographics, int& n);
-
 // setup ctypes externals declarations
 extern "C" {
     // Define free ptr function
