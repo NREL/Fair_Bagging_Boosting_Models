@@ -9,7 +9,7 @@ import sys
 current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current)
 sys.path.append(parent)
-from tools.bias_utils import get_r2_pval, add_demographic_data, to_dmatrix
+from tools.bias_utils import get_r2_pval
 from xgb_wrappers.gradient_boosted_trees import GradientBoostedTreesModel
 from xgb_wrappers.random_forest import RandomForestModel
 from tools.loss_functions import get_pearson_corrected_mse, get_distance_corrected_mse, get_kendalls_corrected_mse

@@ -1,7 +1,7 @@
 from bayes_opt import BayesianOptimization
 import xgboost as xgb
 import numpy as np
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics import mean_squared_error
 import json
 from scipy import stats
 from statsmodels.stats.dist_dependence_measures import distance_correlation

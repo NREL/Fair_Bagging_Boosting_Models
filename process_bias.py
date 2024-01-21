@@ -4,7 +4,7 @@ import pandas as pd
 import warnings
 from tools.test_bias import test_bias
 from tools.plotting import plot_bias
-from tools.bias_utils import add_demographic_data, to_dmatrix, logit, inv_logit
+from tools.bias_utils import add_demographic_data, to_dmatrix, inv_logit
 from tools.loss_functions import get_distance_corrected_mse, get_pearson_corrected_mse, get_kendalls_corrected_mse
 from xgb_wrappers.gradient_boosted_trees import GradientBoostedTreesModel
 from xgb_wrappers.random_forest import RandomForestModel

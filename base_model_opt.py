@@ -4,7 +4,7 @@ import pandas as pd
 import argparse 
 import warnings
 from tools.bias_utils import add_demographic_data
-from tools.loss_functions import get_distance_corrected_mse, get_pearson_corrected_mse, get_kendalls_corrected_mse
+from tools.loss_functions import get_pearson_corrected_mse
 from tools.optimizers import XGBOpt, RFOpt, GBTOpt, to_dmatrix
 import xgboost as xgb
 from xgb_wrappers.gradient_boosted_trees import GradientBoostedTreesModel
