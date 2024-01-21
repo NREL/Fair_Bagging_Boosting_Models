@@ -13,8 +13,8 @@ import sys
 current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current)
 sys.path.append(parent)
-from xgb_gradient_boosted_trees.gradient_boosted_trees import GradientBoostedTreesModel
-from xgb_random_forest.random_forest import RandomForestModel
+from xgb_wrappers.gradient_boosted_trees import GradientBoostedTreesModel
+from xgb_wrappers.random_forest import RandomForestModel
 from tools.loss_functions import get_pearson_corrected_mse, get_distance_corrected_mse, get_kendalls_corrected_mse
 
 correction_dict = {'pearson':get_pearson_corrected_mse, 'distance':get_distance_corrected_mse, 'kendall':get_kendalls_corrected_mse}

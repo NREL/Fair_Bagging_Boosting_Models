@@ -9,8 +9,8 @@ from tools.bias_utils import add_demographic_data
 from tools.loss_functions import get_distance_corrected_mse, get_pearson_corrected_mse, get_kendalls_corrected_mse
 from tools.optimizers import XGBOpt, RFOpt, GBTOpt, to_dmatrix
 import xgboost as xgb
-from xgb_gradient_boosted_trees.gradient_boosted_trees import GradientBoostedTreesModel
-from xgb_random_forest.random_forest import RandomForestModel
+from xgb_wrappers.gradient_boosted_trees import GradientBoostedTreesModel
+from xgb_wrappers.random_forest import RandomForestModel
 warnings.filterwarnings("ignore")
 # add directory to path
 import sys

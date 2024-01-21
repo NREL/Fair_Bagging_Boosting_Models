@@ -6,8 +6,8 @@ from tools.test_bias import test_bias, train_test_bias
 from tools.plotting import plot_bias
 from tools.bias_utils import add_demographic_data
 from tools.loss_functions import get_distance_corrected_mse, get_pearson_corrected_mse, get_kendalls_corrected_mse
-from xgb_gradient_boosted_trees.gradient_boosted_trees import GradientBoostedTreesModel
-from xgb_random_forest.random_forest import RandomForestModel
+from xgb_wrappers.gradient_boosted_trees import GradientBoostedTreesModel
+from xgb_wrappers.random_forest import RandomForestModel
 import json
 import xgboost as xgb
 import time

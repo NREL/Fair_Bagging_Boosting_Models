@@ -11,8 +11,8 @@ warnings.filterwarnings("ignore")
 # add directory to path
 import sys
 import xgboost as xgb
-from xgb_gradient_boosted_trees.gradient_boosted_trees import GradientBoostedTreesModel
-from xgb_random_forest.random_forest import RandomForestModel
+from xgb_wrappers.gradient_boosted_trees import GradientBoostedTreesModel
+from xgb_wrappers.random_forest import RandomForestModel
 sys.path.append('./tools/compiled_loss_funcs')
 
 # Setup parser
