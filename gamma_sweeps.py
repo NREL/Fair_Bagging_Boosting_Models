@@ -31,7 +31,7 @@ def os_print(string):
     os.system('echo ' + f'Model: {args.model_type}, Correction: {args.correction_type}, ' + repr(string))
 
 def train_model(params, dtrain, model_type, correction_type, gamma):
-    objective = loss_dict[correction_type](gamma, etype=0, compiled=True)
+    objective = loss_dict[correction_type](gamma, etype=0)
     if model_type=='xgb':
         n_estimators = 100*int(params['n'])
         lr = 10**params['p']

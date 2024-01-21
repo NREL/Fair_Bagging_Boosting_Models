@@ -110,9 +110,9 @@ class XGBOpt:
         cg = 0 if correction_gamma is None else inv_logit(correction_gamma)
         # comp = False if self.correction_type =='kendall' else True
         if (cg != None) and (cg != 0):
-            objective = self.get_correction(cg, etype=0, compiled=True)
+            objective = self.get_correction(cg, etype=0)
         else:
-            objective = get_pearson_corrected_mse(0, etype=0, compiled=True) # Pearson correction is fastest by far
+            objective = get_pearson_corrected_mse(0, etype=0) # Pearson correction is fastest by far
         for i in uid:
             x_valid = X[fold==i]
             x_train = X[fold!=i]
@@ -221,9 +221,9 @@ class RFOpt(XGBOpt):
         cg = 0 if correction_gamma is None else inv_logit(correction_gamma)
         # comp = False if self.correction_type =='kendall' else True
         if (cg != None) and (cg != 0):
-            objective = self.get_correction(cg, etype=0, compiled=True)
+            objective = self.get_correction(cg, etype=0)
         else:
-            objective = get_pearson_corrected_mse(0, etype=0, compiled=True) # Pearson correction is fastest by far
+            objective = get_pearson_corrected_mse(0, etype=0) # Pearson correction is fastest by far
         for i in uid:
             x_valid = X[fold==i]
             x_train = X[fold!=i]
@@ -304,9 +304,9 @@ class GBTOpt(XGBOpt):
         cg = 0 if correction_gamma is None else inv_logit(correction_gamma)
         # comp = False if self.correction_type =='kendall' else True
         if (cg != None) and (cg != 0):
-            objective = self.get_correction(cg, etype=0, compiled=True)
+            objective = self.get_correction(cg, etype=0)
         else:
-            objective = get_pearson_corrected_mse(0, etype=0, compiled=True) # Pearson correction is fastest by far
+            objective = get_pearson_corrected_mse(0, etype=0) # Pearson correction is fastest by far
         for i in uid:
             x_valid = X[fold==i]
             x_train = X[fold!=i]

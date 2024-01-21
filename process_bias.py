@@ -69,8 +69,8 @@ def process(cutoff, correction, model_type, demographic='MINRTY', train=False):
     dtest = to_dmatrix(X_test, y_test)
 
     n_jobs = -1
-    objective = loss_dict[correction](correction_gamma, etype=0, compiled=True)
-    objective_uncorrected = get_pearson_corrected_mse(0.0, etype=0, compiled=True)
+    objective = loss_dict[correction](correction_gamma, etype=0)
+    objective_uncorrected = get_pearson_corrected_mse(0.0, etype=0)
     corrected_path = os.path.join(path, 'corrected.model')
     if model_type == 'xgb':
         base_name = 'base_xgb.model'

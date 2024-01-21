@@ -123,7 +123,7 @@ def train_test_bias(train_data, test_data, demos, params,
     y_test = test_data['Volume']
     bias_data = None
     for dem, g in zip(demos, gamma):
-        objective = correction_dict[correction](g, compiled=compiled_correction)
+        objective = correction_dict[correction](g)
         # print(pd.concat([X_test, demtest[dem]], axis=1))
         train = pd.concat([X, demtrain[dem], y], axis=1).dropna()
         test = pd.concat([X_test, demtest[dem], y_test], axis=1).dropna()

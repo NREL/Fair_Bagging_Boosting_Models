@@ -86,7 +86,7 @@ def main():
     # Train base model
     os_print('Training base model...')
     n_jobs=-1
-    objective = get_pearson_corrected_mse(0.0, etype=0, compiled=True)
+    objective = get_pearson_corrected_mse(0.0, etype=0)
     dtrain = to_dmatrix(X_train, y_train)
     if args.model_type == 'xgb':
         n_estimators = 100*int(params['n'])
