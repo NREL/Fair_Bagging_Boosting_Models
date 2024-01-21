@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd 
 import argparse 
 import warnings
-from tools.bias_utils import add_demographic_data
+from tools.bias_utils import add_demographic_data, to_dmatrix, logit, inv_logit, r2_score
 from tools.loss_functions import get_distance_corrected_mse, get_pearson_corrected_mse, get_kendalls_corrected_mse
 from tools.optimizers import XGBOpt, RFOpt, GBTOpt
 import json
@@ -26,23 +26,6 @@ n_nodes = -1
 
 loss_dict = {'pearson': get_pearson_corrected_mse, 'kendall': get_kendalls_corrected_mse, 'distance': get_distance_corrected_mse}
 opt_dict = {'xgb': XGBOpt, 'rf': RFOpt, 'gbt': GBTOpt}
-
-def to_dmatrix(X, y):
-        # get number of columns of np array X
-        n_cols = X.shape[1]
-        weights = [1.0 for _ in range(n_cols-1)] + [0.0]
-        return xgb.DMatrix(X, label=y, feature_weights=weights)
-
-def logit(p):
-    return np.log(p/(1-p))
-
-def inv_logit(x):
-    return 1/(1+np.exp(-x))
-
-def r2_score(x,y):
-    x = x.astype(float)
-    y = y.astype(float)
-    return np.corrcoef(x,y)[0,1]**2
 
 def os_print(string):
     os.system('echo ' + f'Model: {args.model_type}, Correction: {args.correction_type}, ' + repr(string))
