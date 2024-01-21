@@ -13,6 +13,12 @@ import sys
 import os
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
+def check_compiled():
+    if not os.path.exists(f'{current_dir}/compiled_loss_funcs/libcorrections.so'):
+        os.system(f'rm {current_dir}/compiled_loss_funcs/libcorrections.so ./tools/compiled_loss_funcs/corrections.o')
+        os.system(f'g++ -c -fPIC {current_dir}/compiled_loss_funcs/corrections.cpp -o ./tools/compiled_loss_funcs/corrections.o')
+        os.system(f'g++ -shared -o {current_dir}/compiled_loss_funcs/libcorrections.so ./tools/compiled_loss_funcs/corrections.o')
+
 #######################################################################################################
 #######################################################################################################
 # 
@@ -21,10 +27,7 @@ current_dir = os.path.dirname(os.path.realpath(__file__))
 #######################################################################################################
 #######################################################################################################
 def get_pearson_corrected_mse(gamma: float, etype: int = 0) -> Callable[[np.ndarray, xgb.DMatrix], Tuple[np.ndarray, np.ndarray]]:
-    if not os.path.exists(f'{current_dir}/compiled_loss_funcs/libcorrections.so'):
-        os.system(f'rm {current_dir}/compiled_loss_funcs/libcorrections.so ./tools/compiled_loss_funcs/corrections.o')
-        os.system(f'g++ -c -fPIC {current_dir}/compiled_loss_funcs/corrections.cpp -o ./tools/compiled_loss_funcs/corrections.o')
-        os.system(f'g++ -shared -o {current_dir}/compiled_loss_funcs/libcorrections.so ./tools/compiled_loss_funcs/corrections.o')
+    check_compiled()
 
     lib = cdll.LoadLibrary(f'{current_dir}/compiled_loss_funcs/libcorrections.so')
         
@@ -51,10 +54,7 @@ def get_pearson_corrected_mse(gamma: float, etype: int = 0) -> Callable[[np.ndar
     return mse_pearson_corrected
 
 def get_distance_corrected_mse(gamma: float, etype: int = 0) -> Callable[[np.ndarray, xgb.DMatrix], Tuple[np.ndarray, np.ndarray]]:
-    if not os.path.exists(f'{current_dir}/compiled_loss_funcs/libcorrections.so'):
-        os.system(f'rm {current_dir}/compiled_loss_funcs/libcorrections.so ./tools/compiled_loss_funcs/corrections.o')
-        os.system(f'g++ -c -fPIC {current_dir}/compiled_loss_funcs/corrections.cpp -o ./tools/compiled_loss_funcs/corrections.o')
-        os.system(f'g++ -shared -o {current_dir}/compiled_loss_funcs/libcorrections.so ./tools/compiled_loss_funcs/corrections.o')
+    check_compiled()
     
     lib = cdll.LoadLibrary(f'{current_dir}/compiled_loss_funcs/libcorrections.so')
 
@@ -79,10 +79,7 @@ def get_distance_corrected_mse(gamma: float, etype: int = 0) -> Callable[[np.nda
     return mse_distance_corrected
 
 def get_kendalls_corrected_mse(gamma: float, etype: int = 0) -> Callable[[np.ndarray, xgb.DMatrix], Tuple[np.ndarray, np.ndarray]]:
-    if not os.path.exists(f'{current_dir}/compiled_loss_funcs/libcorrections.so'):
-        os.system(f'rm {current_dir}/compiled_loss_funcs/libcorrections.so ./tools/compiled_loss_funcs/corrections.o')
-        os.system(f'g++ -c -fPIC {current_dir}/compiled_loss_funcs/corrections.cpp -o ./tools/compiled_loss_funcs/corrections.o')
-        os.system(f'g++ -shared -o {current_dir}/compiled_loss_funcs/libcorrections.so ./tools/compiled_loss_funcs/corrections.o')
+    check_compiled()
     
     lib = cdll.LoadLibrary(f'{current_dir}/compiled_loss_funcs/libcorrections.so')
 
