@@ -16,20 +16,9 @@ sys.path.append(parent)
 from xgb_wrappers.gradient_boosted_trees import GradientBoostedTreesModel
 from xgb_wrappers.random_forest import RandomForestModel
 from tools.loss_functions import get_pearson_corrected_mse, get_distance_corrected_mse, get_kendalls_corrected_mse
+from tools.bias_utils import to_dmatrix, inv_logit, logit
 
 correction_dict = {'pearson':get_pearson_corrected_mse, 'distance':get_distance_corrected_mse, 'kendall':get_kendalls_corrected_mse}
-
-def to_dmatrix(X, y):
-        # get number of columns of np array X
-        n_cols = X.shape[1]
-        weights = [1.0 for _ in range(n_cols-1)] + [0.0]
-        return xgb.DMatrix(X, label=y, feature_weights=weights)
-
-def logit(p):
-    return np.log(p/(1-p))
-
-def inv_logit(x):
-    return 1/(1+np.exp(-x))
 
 def pearson_correlation_penalty(y_train, y_pred, dems, etype, gamma):
     y_train = y_train.reshape(np.shape(y_pred))

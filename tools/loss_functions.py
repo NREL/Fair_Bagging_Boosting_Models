@@ -14,7 +14,6 @@ import os
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
 fully_compiled = True
-eagle = False
 
 #######################################################################################################
 #######################################################################################################
@@ -281,13 +280,6 @@ def kendalls_correlation_penalty_raw_resid(predt: np.ndarray, dtrain: xgb.DMatri
         hess.append(d2tau_dk2)
     return np.array(grad), np.array(hess)
 
-def random_correlation_penalty_raw_resid(predt: np.ndarray, dtrain: xgb.DMatrix) -> Tuple[np.ndarray, np.ndarray]:
-    diffs = predt - dtrain.get_label()
-    n = len(diffs)
-    grad = np.random.uniform(-1,1,n)
-    hess = np.random.uniform(-1,1,n)
-    return grad,hess
-
 #######################################################################################################
 #######################################################################################################
 # 
@@ -298,14 +290,12 @@ def random_correlation_penalty_raw_resid(predt: np.ndarray, dtrain: xgb.DMatrix)
 pearson_etypes = {0: pearson_correlation_penalty_raw_resid, 1:pearson_correlation_penalty_abs_resid, 2:pearson_correlation_penalty_squared_resid}
 def get_pearson_corrected_mse(gamma: float, etype: int = 0, compiled: bool=True) -> Callable[[np.ndarray, xgb.DMatrix], Tuple[np.ndarray, np.ndarray]]:
     if compiled: 
-        if (not eagle) and (not os.path.exists(f'{current_dir}/compiled_loss_funcs/libcorrections.so')):
+        if not os.path.exists(f'{current_dir}/compiled_loss_funcs/libcorrections.so'):
             os.system(f'rm {current_dir}/compiled_loss_funcs/libcorrections.so ./tools/compiled_loss_funcs/corrections.o')
             os.system(f'g++ -c -fPIC {current_dir}/compiled_loss_funcs/corrections.cpp -o ./tools/compiled_loss_funcs/corrections.o')
             os.system(f'g++ -shared -o {current_dir}/compiled_loss_funcs/libcorrections.so ./tools/compiled_loss_funcs/corrections.o')
-        if eagle:
-            lib = cdll.LoadLibrary('/projects/mobility/ebensen/Tree_Based_Model_Bias/tools/compiled_loss_funcs/libcorrections.so')
-        else:
-            lib = cdll.LoadLibrary(f'{current_dir}/compiled_loss_funcs/libcorrections.so')
+
+        lib = cdll.LoadLibrary(f'{current_dir}/compiled_loss_funcs/libcorrections.so')
         if etype == 0:
             f = lib.pearson_raw_resid
         elif etype == 1:
@@ -373,14 +363,12 @@ def get_pearson_corrected_mse(gamma: float, etype: int = 0, compiled: bool=True)
 
 def get_distance_corrected_mse(gamma: float, etype: int = 0, compiled: bool=True) -> Callable[[np.ndarray, xgb.DMatrix], Tuple[np.ndarray, np.ndarray]]:
     if compiled: 
-        if (not eagle) and (not os.path.exists(f'{current_dir}/compiled_loss_funcs/libcorrections.so')):
+        if not os.path.exists(f'{current_dir}/compiled_loss_funcs/libcorrections.so'):
             os.system(f'rm {current_dir}/compiled_loss_funcs/libcorrections.so ./tools/compiled_loss_funcs/corrections.o')
             os.system(f'g++ -c -fPIC {current_dir}/compiled_loss_funcs/corrections.cpp -o ./tools/compiled_loss_funcs/corrections.o')
             os.system(f'g++ -shared -o {current_dir}/compiled_loss_funcs/libcorrections.so ./tools/compiled_loss_funcs/corrections.o')
-        if eagle:
-            lib = cdll.LoadLibrary('/projects/mobility/ebensen/Tree_Based_Model_Bias/tools/compiled_loss_funcs/libcorrections.so')
-        else:
-            lib = cdll.LoadLibrary(f'{current_dir}/compiled_loss_funcs/libcorrections.so')
+        
+        lib = cdll.LoadLibrary(f'{current_dir}/compiled_loss_funcs/libcorrections.so')
         if etype == 0:
             f = lib.distance_raw_resid
         elif etype == 1:    
@@ -443,14 +431,12 @@ def get_distance_corrected_mse(gamma: float, etype: int = 0, compiled: bool=True
 kendalls_etypes = {0: kendalls_correlation_penalty_raw_resid} #, 1: kendalls_correlation_penalty_abs_resid, 2: kendalls_correlation_penalty_squared_resid}
 def get_kendalls_corrected_mse(gamma: float, etype: int = 0, compiled: bool=True) -> Callable[[np.ndarray, xgb.DMatrix], Tuple[np.ndarray, np.ndarray]]:
     if compiled: 
-        if (not eagle) and (not os.path.exists(f'{current_dir}/compiled_loss_funcs/libcorrections.so')):
+        if not os.path.exists(f'{current_dir}/compiled_loss_funcs/libcorrections.so'):
             os.system(f'rm {current_dir}/compiled_loss_funcs/libcorrections.so ./tools/compiled_loss_funcs/corrections.o')
             os.system(f'g++ -c -fPIC {current_dir}/compiled_loss_funcs/corrections.cpp -o ./tools/compiled_loss_funcs/corrections.o')
             os.system(f'g++ -shared -o {current_dir}/compiled_loss_funcs/libcorrections.so ./tools/compiled_loss_funcs/corrections.o')
-        if eagle:
-            lib = cdll.LoadLibrary('/projects/mobility/ebensen/Tree_Based_Model_Bias/tools/compiled_loss_funcs/libcorrections.so')
-        else:
-            lib = cdll.LoadLibrary(f'{current_dir}/compiled_loss_funcs/libcorrections.so')
+        
+        lib = cdll.LoadLibrary(f'{current_dir}/compiled_loss_funcs/libcorrections.so')
         if etype == 0:
             f = lib.kendall_raw_resid
         elif etype == 1:    
@@ -513,23 +499,3 @@ def get_kendalls_corrected_mse(gamma: float, etype: int = 0, compiled: bool=True
             return grad, hess
     return mse_kendall_corrected
 
-random_etypes = {0: random_correlation_penalty_raw_resid} #, 1: kendalls_correlation_penalty_abs_resid, 2: kendalls_correlation_penalty_squared_resid}
-def get_random_corrected_mse(gamma: float, etype: int = 2, compiled: bool=False) -> Callable[[np.ndarray, xgb.DMatrix], Tuple[np.ndarray, np.ndarray]]:
-    if compiled: 
-        raise NotImplementedError
-    else:
-        correction = kendalls_etypes[etype] # Get correction function
-                                            # 0 is raw residuals
-                                            # 1 is absolute residuals
-                                            # 2 is squared residuals
-    # We use the correction to define an internal loss function
-    def mse_random_corrected(predt: np.ndarray, dtrain: xgb.DMatrix) -> Tuple[np.ndarray, np.ndarray]:
-        grad_mse, hess_mse = mse_loss(predt, dtrain) 
-        grad_corr, hess_corr = correction(predt, dtrain)
-        n = len(grad_mse)
-        grad = (1-gamma)*grad_mse + n*gamma*grad_corr
-        hess = (1-gamma)*hess_mse + n*gamma*hess_corr
-        
-        return grad, hess #grad, hess
-    # Get pearson corrected mse returns the callable mse_pearson_corrected function
-    return mse_random_corrected

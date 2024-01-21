@@ -87,29 +87,6 @@ def main():
 
     # os_print(str(params))
     opt.run_gamma(params, path, init_points=init_points, n_iter=n_iter, ratio_limit=1+args.leeway)
-
-
-    #Bias testing is not working properly on eagle for some reason
-    # Test bias
-    # os_print('Testing bias...')
-    # # os_print(X_col)
-    # # os_print(X_train.shape)
-    # train_data = pd.DataFrame(np.concatenate((X_train, y_train, train_ids), axis=1), columns=X_col.append(pd.Index(['Volume', 'StationId'])))
-    # train_data = train_data.drop([demographic], axis=1)
-    # test_data = pd.DataFrame(np.concatenate((X_test, y_test, test_ids), axis=1), columns=X_col.append(pd.Index(['Volume', 'StationId'])))
-    # test_data = test_data.drop([demographic], axis=1)
-    # initial_bias = train_test_bias(train_data, test_data, [demographic], params, args.model_type, args.correction_type)
-    # initial_bias['gamma'] = 0.0
-    # initial_bias['correction_type'] = 'None'
-    # corrected_bias = train_test_bias(train_data, test_data, [demographic], params, args.model_type, args.correction_type, gamma=gamma)
-    # corrected_bias['gamma'] = gamma
-    # corrected_bias['correction_type'] = args.correction_type
-    # bias = pd.concat([initial_bias, corrected_bias], axis=0)
-    # bias.to_csv(os.path.join(path, 'bias.csv'), index=False)
-
-    # # Plot bias
-    # os_print('Plotting bias...')
-    # plot_bias(bias, labels=['Original', f'{args.correction_type} Corrected'], savepath=os.path.join(path, 'bias_testing.jpg'))
     
 if __name__ == "__main__":
     main()
