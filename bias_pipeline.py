@@ -3,8 +3,6 @@ import numpy as np
 import pandas as pd 
 import argparse 
 import warnings
-from tools.test_bias import test_bias, train_test_bias
-from tools.plotting import plot_bias
 from tools.bias_utils import add_demographic_data
 from tools.loss_functions import get_distance_corrected_mse, get_pearson_corrected_mse, get_kendalls_corrected_mse
 from tools.optimizers import XGBOpt, RFOpt, GBTOpt
