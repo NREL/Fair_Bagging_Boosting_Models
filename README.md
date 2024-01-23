@@ -1,12 +1,10 @@
-# Tree Based Model Bias
-Contains the class to build a gradient boosted trees and random forest  model with XGBoost and test their respective biases.
+# Fair Tree-based Ensemble Regression Models
+This repository contains a framework for building, measuring bias and correcting bias in gradient boosted trees (GBT), random forest (RF), and XGBoost  models using the XGBoost library. This takes advantage of the flexibility in XGBoost library to represent gradient boosted tree and random forest models, as well as the ability to use custom loss function.
 
-## Instructions
-Optimizing the base models
-* Copy base_model_opt.py and run_base_opt.slurm to eagle and submit the slurm batch file
-* This should generate a folder called base_models that has subfolders for each model type
-* Copy the base_model folder to the local computer and then you can run the notebook base_model_bias_testing.ipynb to test bias and save plots
-* Note: this all should already be done so you shouldn't need to redo this
+## Testing for Bias
+The [base_model_bias_testing.ipynb](https://github.com/NREL/Fair_Forest_Models/blob/main/base_model_bias_testing.ipynb) notebook is used to test for bias in a pre-trained machine learning XGBoost, GBT, and RF models. It takes as input:
+* pre-trained machine learning model.
+* Test dataset to calculate the model's error.
 
 Optimization Bound Experiments
 * These are the experiments that create the results_{number} folders
