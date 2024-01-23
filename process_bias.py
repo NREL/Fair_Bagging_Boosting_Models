@@ -2,12 +2,12 @@ import os
 import numpy as np 
 import pandas as pd 
 import warnings
-from tools.test_bias import test_bias, train_test_bias
+from tools.test_bias import test_bias
 from tools.plotting import plot_bias
-from tools.bias_utils import add_demographic_data
+from tools.bias_utils import add_demographic_data, to_dmatrix, inv_logit
 from tools.loss_functions import get_distance_corrected_mse, get_pearson_corrected_mse, get_kendalls_corrected_mse
-from xgb_gradient_boosted_trees.gradient_boosted_trees import GradientBoostedTreesModel
-from xgb_random_forest.random_forest import RandomForestModel
+from xgb_wrappers.gradient_boosted_trees import GradientBoostedTreesModel
+from xgb_wrappers.random_forest import RandomForestModel
 import json
 import xgboost as xgb
 import time
@@ -15,18 +15,6 @@ warnings.filterwarnings("ignore")
 # add directory to path
 import sys
 sys.path.append('./tools/compiled_loss_funcs')
-
-def logit(p):
-    return np.log(p/(1-p))
-
-def inv_logit(x):
-    return 1/(1+np.exp(-x))
-
-def to_dmatrix(X, y):
-        # get number of columns of np array X
-        n_cols = X.shape[1]
-        weights = [1.0 for _ in range(n_cols-1)] + [0.0]
-        return xgb.DMatrix(X, label=y, feature_weights=weights)
 
 model_dict = {'rf': RandomForestModel, 'gbt': GradientBoostedTreesModel}
 loss_dict = {'pearson': get_pearson_corrected_mse, 'kendall': get_kendalls_corrected_mse, 'distance': get_distance_corrected_mse}
@@ -81,8 +69,8 @@ def process(cutoff, correction, model_type, demographic='MINRTY', train=False):
     dtest = to_dmatrix(X_test, y_test)
 
     n_jobs = -1
-    objective = loss_dict[correction](correction_gamma, etype=0, compiled=True)
-    objective_uncorrected = get_pearson_corrected_mse(0.0, etype=0, compiled=True)
+    objective = loss_dict[correction](correction_gamma, etype=0)
+    objective_uncorrected = get_pearson_corrected_mse(0.0, etype=0)
     corrected_path = os.path.join(path, 'corrected.model')
     if model_type == 'xgb':
         base_name = 'base_xgb.model'

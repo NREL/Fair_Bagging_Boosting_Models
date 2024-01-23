@@ -3,14 +3,12 @@ import numpy as np
 import pandas as pd 
 import argparse 
 import warnings
-from tools.test_bias import test_bias, train_test_bias
-from tools.plotting import plot_bias
 from tools.bias_utils import add_demographic_data
-from tools.loss_functions import get_distance_corrected_mse, get_pearson_corrected_mse, get_kendalls_corrected_mse
+from tools.loss_functions import get_pearson_corrected_mse
 from tools.optimizers import XGBOpt, RFOpt, GBTOpt, to_dmatrix
 import xgboost as xgb
-from xgb_gradient_boosted_trees.gradient_boosted_trees import GradientBoostedTreesModel
-from xgb_random_forest.random_forest import RandomForestModel
+from xgb_wrappers.gradient_boosted_trees import GradientBoostedTreesModel
+from xgb_wrappers.random_forest import RandomForestModel
 warnings.filterwarnings("ignore")
 # add directory to path
 import sys
@@ -86,7 +84,7 @@ def main():
     # Train base model
     os_print('Training base model...')
     n_jobs=-1
-    objective = get_pearson_corrected_mse(0.0, etype=0, compiled=True)
+    objective = get_pearson_corrected_mse(0.0, etype=0)
     dtrain = to_dmatrix(X_train, y_train)
     if args.model_type == 'xgb':
         n_estimators = 100*int(params['n'])

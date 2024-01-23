@@ -1,7 +1,7 @@
 from bayes_opt import BayesianOptimization
 import xgboost as xgb
 import numpy as np
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics import mean_squared_error
 import json
 from scipy import stats
 from statsmodels.stats.dist_dependence_measures import distance_correlation
@@ -13,23 +13,12 @@ import sys
 current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current)
 sys.path.append(parent)
-from xgb_gradient_boosted_trees.gradient_boosted_trees import GradientBoostedTreesModel
-from xgb_random_forest.random_forest import RandomForestModel
+from xgb_wrappers.gradient_boosted_trees import GradientBoostedTreesModel
+from xgb_wrappers.random_forest import RandomForestModel
 from tools.loss_functions import get_pearson_corrected_mse, get_distance_corrected_mse, get_kendalls_corrected_mse
+from tools.bias_utils import to_dmatrix, inv_logit, logit
 
 correction_dict = {'pearson':get_pearson_corrected_mse, 'distance':get_distance_corrected_mse, 'kendall':get_kendalls_corrected_mse}
-
-def to_dmatrix(X, y):
-        # get number of columns of np array X
-        n_cols = X.shape[1]
-        weights = [1.0 for _ in range(n_cols-1)] + [0.0]
-        return xgb.DMatrix(X, label=y, feature_weights=weights)
-
-def logit(p):
-    return np.log(p/(1-p))
-
-def inv_logit(x):
-    return 1/(1+np.exp(-x))
 
 def pearson_correlation_penalty(y_train, y_pred, dems, etype, gamma):
     y_train = y_train.reshape(np.shape(y_pred))
@@ -121,9 +110,9 @@ class XGBOpt:
         cg = 0 if correction_gamma is None else inv_logit(correction_gamma)
         # comp = False if self.correction_type =='kendall' else True
         if (cg != None) and (cg != 0):
-            objective = self.get_correction(cg, etype=0, compiled=True)
+            objective = self.get_correction(cg, etype=0)
         else:
-            objective = get_pearson_corrected_mse(0, etype=0, compiled=True) # Pearson correction is fastest by far
+            objective = get_pearson_corrected_mse(0, etype=0) # Pearson correction is fastest by far
         for i in uid:
             x_valid = X[fold==i]
             x_train = X[fold!=i]
@@ -232,9 +221,9 @@ class RFOpt(XGBOpt):
         cg = 0 if correction_gamma is None else inv_logit(correction_gamma)
         # comp = False if self.correction_type =='kendall' else True
         if (cg != None) and (cg != 0):
-            objective = self.get_correction(cg, etype=0, compiled=True)
+            objective = self.get_correction(cg, etype=0)
         else:
-            objective = get_pearson_corrected_mse(0, etype=0, compiled=True) # Pearson correction is fastest by far
+            objective = get_pearson_corrected_mse(0, etype=0) # Pearson correction is fastest by far
         for i in uid:
             x_valid = X[fold==i]
             x_train = X[fold!=i]
@@ -315,9 +304,9 @@ class GBTOpt(XGBOpt):
         cg = 0 if correction_gamma is None else inv_logit(correction_gamma)
         # comp = False if self.correction_type =='kendall' else True
         if (cg != None) and (cg != 0):
-            objective = self.get_correction(cg, etype=0, compiled=True)
+            objective = self.get_correction(cg, etype=0)
         else:
-            objective = get_pearson_corrected_mse(0, etype=0, compiled=True) # Pearson correction is fastest by far
+            objective = get_pearson_corrected_mse(0, etype=0) # Pearson correction is fastest by far
         for i in uid:
             x_valid = X[fold==i]
             x_train = X[fold!=i]

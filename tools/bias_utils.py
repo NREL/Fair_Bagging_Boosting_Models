@@ -1,7 +1,12 @@
 import numpy as np 
 import pandas as pd
-import matplotlib.pyplot as plt
 from xgboost import DMatrix
+
+def logit(p):
+    return np.log(p/(1-p))
+
+def inv_logit(x):
+    return 1/(1+np.exp(-x))
 
 def add_demographic_data(data, demo, dropid=False, loc='./data/off_freeway_station_demographics.csv'):
     if isinstance(demo, str):
@@ -28,6 +33,7 @@ def to_dmatrix(X, y):
 
 def get_col_data(data, col):
     return data[['Volume', 'PredVolume', col]]
+
 def get_s(r2_0, r2_1):
     # check if r2 is a ndarray
     if isinstance(r2_0, np.ndarray):
@@ -40,12 +46,17 @@ def get_s(r2_0, r2_1):
         return r2_0 / r2_1
     else:
         return r2_1 / r2_0
+    
+def r2_score(x,y):
+    x = x.astype(float)
+    y = y.astype(float)
+    return np.corrcoef(x,y)[0,1]**2
 
 def get_stats(col, col_data):
     col_data_0 = col_data[col_data[col] == 0]
     col_data_1 = col_data[col_data[col] == 1]
-    col_r2_0 = np.corrcoef(col_data_0['Volume'], col_data_0['PredVolume'])[0, 1]**2
-    col_r2_1 = np.corrcoef(col_data_1['Volume'], col_data_1['PredVolume'])[0, 1]**2
+    col_r2_0 = r2_score(col_data_0['Volume'], col_data_0['PredVolume'])
+    col_r2_1 = r2_score(col_data_1['Volume'], col_data_1['PredVolume'])
     stat = get_s(col_r2_0, col_r2_1)
     n0 = sum(col_data[col] == 0)
     n1 = sum(col_data[col] == 1)

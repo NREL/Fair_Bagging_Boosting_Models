@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib as mpl
 
 def plot_bias(plot_data, labels, 
               cutoffs=[0.6, 0.7, 0.8, 0.9], 
