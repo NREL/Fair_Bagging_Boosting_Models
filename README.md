@@ -6,15 +6,7 @@ The [base_model_bias_testing.ipynb](https://github.com/NREL/Fair_Forest_Models/b
 * Pre-trained machine learning model.
 * Test dataset to calculate the model's error.
 
-Optimization Bound Experiments
-* These are the experiments that create the results_{number} folders
-* You can edit the model, correction and leeway lists in run_bias_pipeline.slurm to adjust what combinations are run
-* To run, copy bias_pipeline.py and run_bias_pipeline.slurm to eagle then submit the slurm batch file
-* Copy the resulting results_{number} folders locally to within the results folder of this repo
-* The bias_pipeline.py does not correctly test bias or plot things on eagle for some reason, so either run the desired combinations individually using investigate_bias.ipynb, or in bulk by editing the lists in lines 179-181 of process_bias.py and running the batch script locally.
-* After the processing is done, you can generate the paper figures using results_trends.ipynb located within the results folder
-
-Gamma Sweep Experiments
+## Gamma Sweep Experiments
 * These are the experiments that create the results_{model_type} folders
 * To run gamma_sweeps.py in terminal:
 ### Script Parameters
