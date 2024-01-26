@@ -7,10 +7,9 @@ The [base_model_bias_testing.ipynb](https://github.com/NREL/Fair_Forest_Models/b
 * Test dataset to calculate the model's error.
 
 ## Bias Mitigation
-To do bias mitigation, we train the tree-based models with various gamma values to understand the trade-off between model performance and demographic bias in the models. This allows the user to create custom models with their specified tolorance for bias and model performance. 
+To do bias mitigation, we train the tree-based models with various gamma values to understand the trade-off between model performance and demographic bias in the models. This allows the user to create custom models with their specified tolorance for bias and model performance. We use the gamma_sweeps.py to do a thorough analysis of the models types and the correction terms. See below for more instructions.
 
-* These are the experiments that create the results_{model_type} folders
-* To run gamma_sweeps.py in terminal:
+
 ### Script Parameters
 Model Type
 | Parameter | Description |
@@ -29,6 +28,10 @@ Correction Terms
 ```linux
 python -W ignore gamma_sweeps.py --model_type {model type} --correction {correction term}
 ```
+* These are the experiments that create the results_{model_type} folders
+* To run gamma_sweeps.py in terminal:
+
+  
 should look like this if code is running proper:
 ```{r, message=TRUE}
 Model: rf, Correction: distance, Loading data...
