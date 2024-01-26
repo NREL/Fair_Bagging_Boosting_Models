@@ -36,7 +36,7 @@ Correction Terms
 python -W ignore gamma_sweeps.py --model_type {model type} --correction {correction term}
 ```
 should look like this is running proper:
-```linux
+```plaintext
 Model: rf, Correction: distance, Loading data...
 Model: rf, Correction: distance, Sweeping Gamma...
 Model: rf, Correction: distance, Gamma: 0.5, 1/51
