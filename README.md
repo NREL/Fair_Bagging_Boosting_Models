@@ -6,7 +6,9 @@ The [base_model_bias_testing.ipynb](https://github.com/NREL/Fair_Forest_Models/b
 * Pre-trained machine learning model.
 * Test dataset to calculate the model's error.
 
-## Gamma Sweep Experiments
+## Bias Mitigation
+To do bias mitigation, we train various models with various gamma values to understand the trade-off between model performance and demographic bias in the models. This allows the user to create custom models with their specified tolorance for bias and model performance. 
+
 * These are the experiments that create the results_{model_type} folders
 * To run gamma_sweeps.py in terminal:
 ### Script Parameters
