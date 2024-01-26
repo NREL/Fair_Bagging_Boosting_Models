@@ -16,10 +16,35 @@ Optimization Bound Experiments
 
 Gamma Sweep Experiments
 * These are the experiments that create the results_{model_type} folders
-* You can edit the model types and corrections in run_gamma_sweeps.slurm to adjust which combinations are run
-* To run, copy gamma_sweeps.py and run_gamma_sweeps.slurm to eagle and submit the slurm batch file
-* Copy the resulting results_{model_type} folders to the local machine within the results folder of this repo
+* To run gamma_sweeps.py in terminal:
+### Script Parameters
+Model Type
+| Parameter | Description |
+| ----------- | ----------- |
+| rf | Random Forest Model|
+| gbt | Gradient Boosted Trees |
+| xgb | Extreme Gradient Boosted Trees |
+
+Correction Terms
+| Parameter | Description |
+| ----------- | ----------- |
+| pearson | Pearson correlation for linear relationship|
+| distance | Distance correlation for non-linear |
+| kendall | Kendall's Tau for non-linear. This will run the slowest |
+
+```linux
+python -W ignore gamma_sweeps.py --model_type {model type} --correction {correction term}
+```
+should look like this is running proper:
+```linux
+Model: rf, Correction: distance, Loading data...
+Model: rf, Correction: distance, Sweeping Gamma...
+Model: rf, Correction: distance, Gamma: 0.5, 1/51
+[10:44:59] WARNING: /var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_21wtzqx5vy/croot/xgboost-split_1675457780668/work/src/learner.cc:767: 
+Parameters: { "num_parallel_trees" } are not used.
+
+
+```
+* Results will populate in  the results_{model_type} folders to the local machine within the results folder of this repo
 * Then you can generate the paper figures by running results_trends_gamma.ipynb
 
-Note: the files are already on eagle under "/projects/mobility/ebensen/Tree_Based_Model_Bias/"
-test
