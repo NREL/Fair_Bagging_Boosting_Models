@@ -44,5 +44,5 @@ Parameters: { "num_parallel_trees" } are not used.
 
 ```
 * Results will populate in  the results_{model_type} folders to the local machine within the results folder of this repo
-* Then you can generate the paper figures by running results_trends_gamma.ipynb
+* Then you can generate figures from your results by running results_trends_gamma.ipynb
 
