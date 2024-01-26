@@ -31,6 +31,7 @@ def os_print(string):
     os.system('echo ' + f'Model: {args.model_type}, Correction: {args.correction_type}, ' + repr(string))
 
 def train_model(params, dtrain, model_type, correction_type, gamma):
+    # Initializing hyperparameters for each model below and trains on data
     objective = loss_dict[correction_type](gamma, etype=0)
     if model_type=='xgb':
         n_estimators = 100*int(params['n'])
@@ -70,49 +71,70 @@ def train_model(params, dtrain, model_type, correction_type, gamma):
 
     return model
 
-def main():
-    demographic = args.demographic
-    path = os.path.join(f'results_{args.model_type}', args.correction_type, demographic)
-    if not os.path.exists(path):
-        os.makedirs(path)
+def process_for_training(demographic):
+    # if you are using different data, you will need to replace raw_data_train, raw_data_test files 
+    # Inputs: The demographic column you be using for measuring bias
+    # Ouputs: sends back matrix formated train and test vectors along with target test (y_test) and demographic test set (dem_test)
 
     # Load data
     os_print('Loading data...')
+    # these columns will be dropped for training
     cols_drop = ['Date', 'FC', 'PenRate', 'NumberOfLanes', 'Dir', 'Lat', 'Long']
-
-    raw_data_train = pd.read_csv("./data/final_train_data.csv")
-    raw_data_test = pd.read_csv("./data/final_test_data.csv")
+    
+    ########################################
+    # REPLACE BELOW IF USING DIFFERENT DATA
+    #########################################
+    raw_data_train = pd.read_csv("./data/final_train_data_syn.csv") 
+    raw_data_test = pd.read_csv("./data/final_test_data_syn.csv")
     raw_data_test1 = pd.DataFrame(np.concatenate((raw_data_test.values, np.zeros(raw_data_test.shape[0]).reshape(-1, 1)), axis=1),
                                     columns = raw_data_test.columns.append(pd.Index(['fold'])))
     raw_data = pd.DataFrame(np.concatenate((raw_data_train.values, raw_data_test1.values), axis=0), 
                             columns = raw_data_train.columns)
 
+    #This will append new column with demographic data
     raw_data = add_demographic_data(raw_data, demographic)
-    raw_data = raw_data.dropna()
-    raw_data_train = raw_data.loc[raw_data.fold!=0, :]
-    raw_data_test = raw_data.loc[raw_data.fold==0, :]
-    data = raw_data.drop(cols_drop, axis=1)
+    # drop NA values
+    raw_data = raw_data.dropna() 
+    # Fold == 0 is testing, otherwise rest is training set
+    raw_data_train = raw_data.loc[raw_data.fold!=0, :] 
+    raw_data_test = raw_data.loc[raw_data.fold==0, :] 
+
+    data = raw_data.drop(cols_drop, axis=1)  
+    # for road directions, one-hot encoding is performed
     if 'Dir' in data.columns:
         one_hot = pd.get_dummies(data[['Dir']])
         data = data.drop(['Dir'], axis = 1)
         data = data.join(one_hot)
+    # replace string weekdays with numbered days
     week_dict = {"DayOfWeek": {'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 
                                 'Friday': 5, 'Saturday': 6, 'Sunday': 7}}
     data = data.replace(week_dict)
 
-    X = data.drop(['Volume'], axis=1)
+    X = data.drop(['Volume'], axis=1) # drop target
     y = data[['Volume']]
-
+    # convert to dmatrix. This is the format xgboost uses and set the input training set and target training set
     X_train = X.loc[X.fold!=0, :]
     X_train = X_train.drop(['fold', 'StationId'], axis = 1).values
     y_train = y.loc[X.fold!=0, :].values
-    dtrain = to_dmatrix(X_train, y_train)
+    dtrain = to_dmatrix(X_train, y_train)  
 
+    # convert to dmatrix. This is the format xgboost uses. Also, sets the demographic test set and input and target test sets
     X_test = X.loc[X.fold==0, :]
     dem_test = X_test[[demographic]].values.flatten()
     X_test = X_test.drop(['fold', 'StationId'], axis = 1).values
     y_test = y.loc[X.fold==0, :].values.flatten()
-    dtest = to_dmatrix(X_test, y_test)
+    dtest = to_dmatrix(X_test, y_test) 
+
+    return dtrain,dtest,y_test,dem_test
+
+def main():
+    demographic = args.demographic
+    # Path is set to save the results. Directory is results_{name of model}/{Correction Term}/{Demographic Column from CDC}
+    path = os.path.join(f'results_{args.model_type}', args.correction_type, demographic)
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+    dtrain,dtest,y_test,dem_test = process_for_training(demographic)
 
     # Optimize hyperparameters
     os_print('Sweeping Gamma...')
@@ -131,9 +153,13 @@ def main():
     if not os.path.exists(os.path.join(path, 'models')):
         os.makedirs(os.path.join(path, 'models'))
 
+    # Below is where we sweep through the gamma values and record results to be stored in specified file
     for i in range(len(gammas)):
+        #gammas are logarithmic and are more dense near 1 since we saw most bias mitigation there. 
+        # depending on your data you might want to adjust these gamma values
         gamma = gammas[i]
         os_print(f'Gamma: {gamma}, {i+1}/{len(gammas)}')
+
         model = train_model(params, dtrain, args.model_type, args.correction_type, gamma)
         model.save_model(os.path.join(path, 'models', f'{gamma}.model'))
         preds = model.predict(dtest).flatten()
@@ -148,7 +174,7 @@ def main():
             results.loc[i, f'r2_0 {c}'] = r2_0
             results.loc[i, f'r2_1 {c}'] = r2_1
             results.loc[i, f'r2 diff {c}'] = abs(r2_1 - r2_0)
-    
+    # this is where we save results, so the path above sets the directory for the results
     results.to_csv(os.path.join(path, 'gamma_sweep.csv'), index=False)
 
     
