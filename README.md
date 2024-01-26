@@ -25,11 +25,12 @@ Correction Terms
 | distance | Distance correlation for non-linear |
 | kendall | Kendall's Tau for non-linear. This will run the slowest |
 
+* To run gamma_sweeps.py in terminal:
 ```linux
 python -W ignore gamma_sweeps.py --model_type {model type} --correction {correction term}
 ```
 * These are the experiments that create the results_{model_type} folders
-* To run gamma_sweeps.py in terminal:
+
 
   
 should look like this if code is running proper:
