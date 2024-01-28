@@ -25,7 +25,8 @@ class GradientBoostedTreesModel():
         # 6. GBT has no pruning 
         self.nbr = num_boost_round
         self.params = {'objective':objective, 'booster':'gbtree', 'verbosity':verbosity,
-                       'subsample':subsample, 'colsample_bytree':colsample_bytree}
+                       'subsample':subsample, 'colsample_bytree':colsample_bytree,
+                       'reg_lambda':0}
         if eta is not None:
             self.params['eta'] = eta
         if eval_metric is not None:
@@ -83,7 +84,6 @@ class GradientBoostedTreesModel():
 
         self.booster = xgb.train(self.params, dtrain, **training_args)
         
-        pass
         
     def predict(self, data, *, output_margin=False, ntree_limit=0, pred_leaf=False, 
                 pred_contribs=False, approx_contribs=False, pred_interactions=False, 
