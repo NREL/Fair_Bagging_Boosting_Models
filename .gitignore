@@ -1,0 +1,7 @@
+results*
+results
+.DS_store
+base_models/gbt/*.png
+base_models/rf/*.png
+base_models/xgb/*.png
+*.jpg
