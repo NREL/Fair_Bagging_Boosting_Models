@@ -1,6 +1,6 @@
 results*
 results
-.DS_store
+.DS_Store
 base_models/gbt/*.png
 base_models/rf/*.png
 base_models/xgb/*.png
