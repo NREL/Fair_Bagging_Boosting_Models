@@ -63,7 +63,7 @@ You can modify the set of gammas considered by changing line 144 and 146 in **ga
 
 
 
-###To run gamma_sweeps.py in terminal**:
+### To run gamma_sweeps.py in terminal**:
 ```linux
 python -W ignore gamma_sweeps.py --model_type {model type} --correction {correction term} --demographic {protected attribute}
 ```
