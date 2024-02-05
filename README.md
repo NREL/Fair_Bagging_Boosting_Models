@@ -1,9 +1,9 @@
 # Fair Tree-based Ensemble Regression Models
 
 ## Contributors:
-Eric A. Bensen: ebensen@andrew.cmu.edu
-Joseph Severino: joseph.severino@nrel.gov
-Juliette Ugirumurera: jugirumu@nrel.gov
+Eric A. Bensen: ebensen@andrew.cmu.edu \\
+Joseph Severino: joseph.severino@nrel.gov \\
+Juliette Ugirumurera: jugirumu@nrel.gov \\
 
 ## Description
 This repository contains a framework for building, measuring bias and correcting bias in gradient boosted trees (GBT), random forest (RF), and XGBoost  models using the XGBoost library. This takes advantage of the flexibility in XGBoost library to represent gradient boosted tree and random forest models, as well as the ability to use custom loss function.
