@@ -9,8 +9,8 @@ conda activate ai_bias
 
 ## Testing for Bias
 The [base_model_bias_testing.ipynb](https://github.com/NREL/Fair_Forest_Models/blob/main/base_model_bias_testing.ipynb) notebook is used to test for bias in a pre-trained XGBoost, GBT, and RF models. This approach can also be used to test bias in other machine learning models that can be implemented in this framework. The bias testing method takes as input:
-* Pre-trained machine learning model in the *base_models* folder.
-* Test dataset to calculate the model's error.
+* Pre-trained machine learning model in the **base_models** folder.
+* Test dataset to calculate the model's error. This repo includes some test files in the **data** folder.
 
 ## Bias Mitigation
 To do bias mitigation, we train the tree-based models with a custom loss function that combines the training loss function and correction term that penalizes high correlation between the model's error and a protected attribute. We use a parameter gamma, with values in [0,1], to understand the trade-off between model performance and demographic bias in the models. That is, when gamma = 0, the training process ignores the correction terms and focus on maximizing the model's accuracy. When gamma = 1, the training process only focuses on minimizing the model's bias. We use the gamma_sweeps.py to do a thorough analysis of the models types and the correction terms. See below for more instructions.
