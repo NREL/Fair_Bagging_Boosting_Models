@@ -51,4 +51,4 @@ Model: {model type}, Correction: distance, Gamma: 0.5, 1/51
 ...
 
 ```
-* Results will populate in  the results_{model_type} folders within this repo's folder.
+Results will populate in  the results_{model_type} folders within this repo's folder.
