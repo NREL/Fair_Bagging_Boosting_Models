@@ -84,7 +84,6 @@ class GradientBoostedTreesModel():
 
         self.booster = xgb.train(self.params, dtrain, **training_args)
         
-        pass
         
     def predict(self, data, *, output_margin=False, ntree_limit=0, pred_leaf=False, 
                 pred_contribs=False, approx_contribs=False, pred_interactions=False, 
