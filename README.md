@@ -38,7 +38,7 @@ Correction Terms
 | distance | Distance correlation for non-linear |
 | kendall | Kendall's Tau for non-linear. This will run the slowest |
 
-Protected Attribute
+Demographic attribute
 |CDC Variable Name  |  Description |
 | ----------------- | -------------- |
 | AGE17  |  Persons aged 17 and younger |
@@ -63,7 +63,7 @@ You can modify the set of gammas considered by changing line 144 and 146 in **ga
 
 
 
-**To run gamma_sweeps.py in terminal**:
+###To run gamma_sweeps.py in terminal**:
 ```linux
 python -W ignore gamma_sweeps.py --model_type {model type} --correction {correction term} --demographic {protected attribute}
 ```
