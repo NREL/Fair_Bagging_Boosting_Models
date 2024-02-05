@@ -12,7 +12,7 @@ conda activate ai_bais
 conda install ipykernel
 python -m ipykernel install --user --name=ai_bias
 ```
-Afte these steps, you should see ai_bias as a kernel in the Jupyter notebook interface.
+After these steps, you should see ai_bias as a kernel in the Jupyter notebook interface.
 
 ## Testing for Bias
 The [base_model_bias_testing.ipynb](https://github.com/NREL/Fair_Forest_Models/blob/main/base_model_bias_testing.ipynb) notebook is used to test for bias in a pre-trained XGBoost, GBT, and RF models. This approach can also be used to test bias in other machine learning models that can be implemented in this framework. The bias testing method takes as input:
@@ -40,7 +40,7 @@ Correction Terms
 
 
 **Gamma** values considered are {0} and 50 values with values between 0.5 and 0.9999.
-You can modify the set of gammas considered by changing line 144 and 146 in *gamma_sweeps.py* script.
+You can modify the set of gammas considered by changing line 144 and 146 in **gamma_sweeps.py** script.
 
 
 
