@@ -31,16 +31,17 @@ Correction Terms
 | distance | Distance correlation for non-linear |
 | kendall | Kendall's Tau for non-linear. This will run the slowest |
 
+
 **Gamma** values considered are {0} and 50 values with values between 0.5 and 0.9999.
 You can modify the set of gammas considered by changing line 144 and 146 in *gamma_sweeps.py* script.
 
-* To run gamma_sweeps.py in terminal:
+
+
+**To run gamma_sweeps.py in terminal**:
 ```linux
 python -W ignore gamma_sweeps.py --model_type {model type} --correction {correction term}
 ```
-* These are the experiments that create the results_{model_type} folders
-
-
+These are the experiments that create the results_{model_type} folders
 
 If the code is running properly, you should see the output like below:
 ```{r, message=TRUE}
