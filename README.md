@@ -20,7 +20,7 @@ The [base_model_bias_testing.ipynb](https://github.com/NREL/Fair_Forest_Models/b
 * Test dataset to calculate the model's error. This repo includes some test files in the **data** folder.
 
 ## Bias Mitigation
-To do bias mitigation, we train the tree-based models with a custom loss function that combines the training loss function and correction term that penalizes high correlation between the model's error and a protected attribute. We use a parameter gamma, with values in [0,1], to understand the trade-off between model performance and demographic bias in the models. That is, when gamma = 0, the training process ignores the correction terms and focus on maximizing the model's accuracy. When gamma = 1, the training process only focuses on minimizing the model's bias. We use the gamma_sweeps.py to do a thorough analysis of the models types and the correction terms. See below for more instructions.
+To do bias mitigation, we train the tree-based models with a custom loss function that combines the training loss function and a correction term that penalizes high correlation between the model's error and a protected attribute. We use a parameter gamma, with values in [0,1], to understand the trade-off between model performance and demographic bias in the models. That is, when gamma = 0, the training process ignores the correction terms and focus on maximizing the model's accuracy. When gamma = 1, the training process only focuses on minimizing the model's bias. We use the gamma_sweeps.py to do a thorough analysis of the models types and the correction terms. See below for more instructions.
 
 
 ### Script Parameters
@@ -38,6 +38,25 @@ Correction Terms
 | distance | Distance correlation for non-linear |
 | kendall | Kendall's Tau for non-linear. This will run the slowest |
 
+Protected Attribute
+|CDC Variable Name  |  Description |
+| ----------------- | -------------- |
+| AGE17  |  Persons aged 17 and younger |
+| AGE65 | Persons aged 65 and older   |
+| CROWD | At household level (occupied housing units), more people than rooms   |
+| DISABL  |  Civilian non-institutionalized population with a disability |
+| GROUPQ | Persons in group quarters |
+| LIMENG | Persons (age 5+) who speak English "less than well" |
+| MINRTY | Minority (all persons except white, non-Hispanic) |
+| MOBILE | Mobile Homes |
+| MUNIT | Housing in structures with 10 or more units estimate |
+| NOHSDP | Persons (age 25+) with no high school diploma |
+| NOVEH | Households with no vehicle available |
+| PCI | Per capita Income |
+| POV | Persons below proverty |
+| SNGPNT | Single parent household with children under 18  |
+| UNEMP | Civilian (age 16+) unemployed |
+
 
 **Gamma** values considered are {0} and 50 values with values between 0.5 and 0.9999.
 You can modify the set of gammas considered by changing line 144 and 146 in **gamma_sweeps.py** script.
@@ -46,9 +65,9 @@ You can modify the set of gammas considered by changing line 144 and 146 in **ga
 
 **To run gamma_sweeps.py in terminal**:
 ```linux
-python -W ignore gamma_sweeps.py --model_type {model type} --correction {correction term}
+python -W ignore gamma_sweeps.py --model_type {model type} --correction {correction term} --demographic {protected attribute}
 ```
-These are the experiments that create the results_{model_type} folders
+The **MINRTY** is the default protected attribute if the **--demographic** is not used.
 
 If the code is running properly, you should see the output like below:
 ```{r, message=TRUE}
