@@ -63,11 +63,11 @@ You can modify the set of gammas considered by changing line 144 and 146 in **ga
 
 
 
-### To run gamma_sweeps.py in terminal**:
+### To Run gamma_sweeps.py in Terminal:
 ```linux
 python -W ignore gamma_sweeps.py --model_type {model type} --correction {correction term} --demographic {protected attribute}
 ```
-The **MINRTY** is the default protected attribute if the **--demographic** is not used.
+The minority demographic (**MINRTY**) is the default protected attribute if the **--demographic** is not used.
 
 If the code is running properly, you should see the output like below:
 ```{r, message=TRUE}
