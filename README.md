@@ -71,7 +71,7 @@ The [base_model_bias_testing.ipynb](https://github.com/NREL/Fair_Forest_Models/b
 ## Bias Mitigation
 To do bias mitigation, we train the tree-based models with a custom loss function that combines the training loss function and a correction term that penalizes high correlation between the model's error and a protected attribute. We use a parameter gamma, with values in [0,1], to understand the trade-off between model performance and demographic bias in the models. That is, when gamma = 0, the training process ignores the correction terms and focus on maximizing the model's accuracy. When gamma = 1, the training process only focuses on minimizing the model's bias. We use the gamma_sweeps.py to do a thorough analysis of the models types and the correction terms. See below for more instructions.
 
-**Gamma**
+**Gamma:**
 Gamma is tested with values: {0} and 50 values drawn from interval [0.5, 0.9999].
 You can modify the set of gammas considered by changing line 144 and 146 in **gamma_sweeps.py** script.
 
