@@ -1,7 +1,7 @@
 import os
-import numpy as np 
-import pandas as pd 
-import argparse 
+import numpy as np
+import pandas as pd
+import argparse
 import warnings
 from tools.bias_utils import add_demographic_data
 from tools.loss_functions import get_pearson_corrected_mse
@@ -37,11 +37,11 @@ def main():
     os_print('Loading data...')
     cols_drop = ['Date', 'FC', 'PenRate', 'NumberOfLanes', 'Dir', 'Lat', 'Long']
 
-    raw_data_train = pd.read_csv("./data/final_train_data.csv")
-    raw_data_test = pd.read_csv("./data/final_test_data.csv")
+    raw_data_train = pd.read_csv("./data/final_train_data_syn.csv")
+    raw_data_test = pd.read_csv("./data/final_test_data_syn.csv")
     raw_data_test1 = pd.DataFrame(np.concatenate((raw_data_test.values, np.zeros(raw_data_test.shape[0]).reshape(-1, 1)), axis=1),
                                     columns = raw_data_test.columns.append(pd.Index(['fold'])))
-    raw_data = pd.DataFrame(np.concatenate((raw_data_train.values, raw_data_test1.values), axis=0), 
+    raw_data = pd.DataFrame(np.concatenate((raw_data_train.values, raw_data_test1.values), axis=0),
                             columns = raw_data_train.columns)
 
     raw_data = add_demographic_data(raw_data, demographic)
@@ -53,7 +53,7 @@ def main():
         one_hot = pd.get_dummies(data[['Dir']])
         data = data.drop(['Dir'], axis = 1)
         data = data.join(one_hot)
-    week_dict = {"DayOfWeek": {'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 
+    week_dict = {"DayOfWeek": {'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4,
                                 'Friday': 5, 'Saturday': 6, 'Sunday': 7}}
     data = data.replace(week_dict)
 
@@ -122,7 +122,7 @@ def main():
         model = GradientBoostedTreesModel(**params)
         model.train(dtrain, obj=objective)
         model.save_model(os.path.join(path, 'base_gbt.model'))
-        
+
 if __name__ == "__main__":
     main()
     os_print('Done!')
