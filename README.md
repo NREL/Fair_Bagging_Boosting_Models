@@ -1,4 +1,4 @@
-# Fair Tree-based Ensemble Regression Models
+# Fair Forest Regression Models
 
 ## Contributors:
 Eric A. Bensen: ebensen@andrew.cmu.edu  
