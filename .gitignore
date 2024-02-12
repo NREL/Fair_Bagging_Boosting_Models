@@ -1,6 +1,7 @@
 results*
 results
 .DS_Store
+data/.DS_Store
 .ipynb_checkpoints
 base_models/gbt/*.png
 base_models/rf/*.png
