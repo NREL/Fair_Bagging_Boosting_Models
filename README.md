@@ -57,7 +57,7 @@ Demographic attribute
 
 
 ## Train Baseline GBT, RF, and XGBoost
-This steps allows to train a baseline GBT, RF or XGBoost forest model to test bias on.
+This steps allows to train baseline GBT, RF or XGBoost forest models to test bias on.
 ```
 python base_model_opt.py --model_type {model type} --demographic {demographic attribute}
 ```
