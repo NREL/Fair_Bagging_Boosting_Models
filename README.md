@@ -91,3 +91,6 @@ Model: {model type}, Correction: distance, Gamma: 0.5, 1/51
 
 ```
 Results will populate in  the results_{model_type} folders within this repo's folder.
+
+## Visualizing Results
+To plot results please use this [visualization notebook](https://github.com/NREL/Fair_Forest_Models/blob/main/visualization_of_results.ipynb).
