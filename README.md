@@ -1,4 +1,4 @@
-# Fair Forest Regression Models
+# Fair Forests Regression Models
 
 ## Contributors:
 Eric A. Bensen: ebensen@andrew.cmu.edu  
