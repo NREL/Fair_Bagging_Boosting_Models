@@ -7,3 +7,5 @@ base_models/gbt/*.png
 base_models/rf/*.png
 base_models/xgb/*.png
 *.jpg
+data/final_train_data.csv
+data/final_test_data.csv
