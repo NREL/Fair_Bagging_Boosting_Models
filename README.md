@@ -6,7 +6,7 @@ Joseph Severino: joseph.severino@nrel.gov
 Juliette Ugirumurera: jugirumu@nrel.gov  
 
 ## Description
-This repository contains a framework for building, measuring bias and correcting bias in 3 popular forest machine learning models: gradient boosted trees (GBT), random forest (RF), and XGBoost  models, using the XGBoost library. The framework takes advantage of the flexibility in XGBoost library to represent gradient boosted tree and random forest models, as well as the ability to use custom loss function.
+This repository contains a framework for building, measuring bias and correcting bias in 3 popular bagging and boosting regression models: gradient boosted trees (GBT), random forest (RF), and XGBoost  models, using the XGBoost library. The framework takes advantage of the flexibility in XGBoost library to represent gradient boosted tree and random forest models, as well as the ability to use custom loss function.
 
 ## Setting up conda environment
 ```
