@@ -16,4 +16,4 @@ dependencies:
   - pip
   - pip:
     - bayesian-optimization
-    - matrix2np
+    - dmatrix2np
